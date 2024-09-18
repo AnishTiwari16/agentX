@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/provider.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/hooks/useetherssigner.tsx","./src/hooks/useweb3auth.tsx","./src/store/index.tsx"],"version":"5.6.2"}
