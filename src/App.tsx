@@ -1,12 +1,13 @@
 // import { ethers } from 'ethers';
 // import { useState } from 'react';
 // import { useWeb3Auth } from './useWeb3Auth';
+import { useEthersSigner } from './hooks/useEthersSigner';
 import useWeb3Auth from './hooks/useWeb3Auth';
 import useGlobalStore from './store';
 function App() {
     // const [clipSigner, setClipSigner] = useState('');
 
-    const { signer } = useGlobalStore();
+    const signer = useEthersSigner();
     const { login } = useWeb3Auth();
     const storeAddressInExtension = () => {
         if (signer) {
@@ -78,12 +79,31 @@ function App() {
     //     const res = await getAccounts();
     //     console.log(res);
     // };
+    const handleCall = async () => {
+        let chatQuery = 'Who are you?';
+        let model = 'o1-preview';
+        const obj = {
+            chatQuery,
+            model,
+        };
+        const response = await fetch(
+            `https://wapo-testnet.phala.network/ipfs/QmbzK3mvM6MVJrRBHp9EJa9smKCYhCGvs6YMoSSMhf3nFc`,
+            {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(obj),
+            }
+        );
+
+        const res = await response.json();
+        console.log(res);
+    };
     return (
         <div>
-            <div onClick={() => login()}>Web3connect</div>
-            <button onClick={storeAddressInExtension}>
-                Send Address to Extension
-            </button>
+            <div onClick={() => handleCall()}>call api</div>
+
             {/* <div onClick={fetcherOn}>api fetcher</div>
             <div onClick={handleSend}>Send transaction</div>
             <div onClick={getClipboardData}>Store</div>

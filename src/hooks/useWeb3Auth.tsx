@@ -4,6 +4,7 @@ import { Web3Auth } from '@web3auth/modal';
 // IMP END - Quick Start
 import { useEffect, useState } from 'react';
 import useGlobalStore from '../store';
+import { useEthersSigner } from './useEthersSigner';
 
 const clientId =
     'BMOrKGsNSuifb5MOhmMmJOrkptD_vHNpAJ54OIV684-T1BQ5ccoz4JMF6W8bkIlnw5_qaFOEDwNBVhpAwUGClQ4';
@@ -39,6 +40,7 @@ const web3auth = new Web3Auth({
 function useWeb3Auth() {
     const [loggedIn, setLoggedIn] = useState(false);
     const { setSigner } = useGlobalStore();
+
     useEffect(() => {
         const init = async () => {
             try {
@@ -56,17 +58,9 @@ function useWeb3Auth() {
 
         init();
     }, []);
-    useEffect(() => {
-        if (loggedIn) {
-            getSignerValue();
-        }
-    }, [loggedIn]);
     const login = async () => {
-        // IMP START - Login
-        if (web3auth.connected) {
-            setLoggedIn(true);
-        }
-        // IMP END - Login
+        await web3auth.connect();
+        getSignerValue();
     };
 
     const getSignerValue = async () => {
